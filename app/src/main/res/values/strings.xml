@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Aeroplane App</string>
+    <string name="aeroplanes_loading">We are loading your aeroplanes...</string>
+    <string name="aeroplane_list_error">We have been unable to load your aeroplane portfolio.</string>
+</resources>
