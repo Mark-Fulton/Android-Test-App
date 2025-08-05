@@ -1,0 +1,27 @@
+name: 'Build App'
+# description: 'This runs tests, and then the build command for the configuration application and uploads this to Github'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-app:
+    runs-on: ubuntu-latest
+    steps:
+     
+      - name: 🛒 Checkout repo
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+
+      - name: 📦 Install JDK ${{ inputs.jdk-version }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'adopt'
+          java-version: ${{ inputs.jdk-version }}
+      
+      - name: 🔨 Build Airways App APK
+        shell: bash
+        run: ./gradlew --profile --stacktrace assemble
