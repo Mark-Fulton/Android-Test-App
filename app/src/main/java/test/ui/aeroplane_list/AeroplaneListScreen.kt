@@ -6,10 +6,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -17,10 +20,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import test.R
 import test.domain.model.Ifc
 import test.domain.model.Ife
@@ -62,12 +67,8 @@ fun AeroplaneListScreen(contract: PortfolioViewModelContract) {
                     ) {
                         when (uiState) {
                             is AeroplaneListUiState.Loading -> {
-                                item {
-                                    CalloutsComponent(
-                                        title = "Please Wait",
-                                        body = "We are loading your planes..."
-                                    )
-                                }
+                                // Loading is now handled by the dialog overlay
+                                // Keep this empty or show a skeleton screen
                             }
                             is AeroplaneListUiState.Data -> {
                                 if (uiState.data?.planes?.isEmpty() == true) {
@@ -105,6 +106,32 @@ fun AeroplaneListScreen(contract: PortfolioViewModelContract) {
             }
         }
     )
+    
+    // Loading Dialog Overlay
+    if (uiState is AeroplaneListUiState.Loading) {
+        AlertDialog(
+            onDismissRequest = { /* Dialog cannot be dismissed */ },
+            confirmButton = { /* No confirm button needed */ },
+            text = {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(48.dp)
+                        )
+                        Text(
+                            text = "Loading planes...",
+                            modifier = Modifier.padding(top = 16.dp)
+                        )
+                    }
+                }
+            }
+        )
+    }
 }
 
 
@@ -182,6 +209,19 @@ private fun AeroplaneListScreenPreview() {
 private fun AeroplaneListScreenErrorPreview() {
     val contract = mockPortfolioViewModelContract(
         AeroplaneListUiState.Error
+    )
+    AerTheme {
+        Surface {
+            AeroplaneListScreen(contract)
+        }
+    }
+}
+
+@Preview(device = Devices.PIXEL_2)
+@Composable
+private fun AeroplaneListScreenLoadingPreview() {
+    val contract = mockPortfolioViewModelContract(
+        AeroplaneListUiState.Loading()
     )
     AerTheme {
         Surface {
