@@ -19,9 +19,9 @@ class PlaneListService @Inject constructor(
     private val client = retrofit.create(Client::class.java)
 
     override suspend fun getPortfolio(): Portfolio =
-        resolveStatusCodeWith(client.getPlaneList()).toPortfolio()
+//        resolveStatusCodeWith(client.getPlaneList()).toPortfolio()
 //        resolveStatusCodeWith(dataObject.getPlaneList()).toPortfolio()
-//        resolveStatusCodeWith(dataObject.getSlowPlaneList()).toPortfolio()
+        resolveStatusCodeWith(dataObject.getSlowPlaneList()).toPortfolio()
 //        resolveStatusCodeWith(dataObject.getMalformedPlaneList()).toPortfolio()
 //        resolveStatusCodeWith(dataObject.getEmptyPlaneList()).toPortfolio()
     //endregion
