@@ -84,9 +84,6 @@ gradle-app.setting
 # Cache of project dependencies
 .gradletasknamecache
 
-# Gradle master build file
-gradle.properties
-
 ### IntelliJ/Android Studio ###
 
 # User-specific settings that should not be synced
