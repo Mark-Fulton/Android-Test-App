@@ -21,7 +21,7 @@ import javax.inject.Inject
  * This class specifically interacts with the R.raw. exercise files provided and places
  * the JSON object found into the PlaneFileReader class.
  *
- * This is setup like this to mimimise the differences between handling this JSON file directly,
+ * This is setup like this to minimise the differences between handling this JSON file directly,
  * VS setting up an API to call.
  *
  * @throws Exception The JSON format cannot be mapped to the Response class
